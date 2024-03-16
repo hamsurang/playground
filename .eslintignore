@@ -1,0 +1,5 @@
+.vscode
+dist
+esm
+.eslintrc.js
+prettier.config.mjs

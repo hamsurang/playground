@@ -1,0 +1,20 @@
+{
+  "name": "@hamsurang/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "react-js.js",
+    "react-ts.js",
+    "react-ts-no-import.js"
+  ],
+  "scripts": {
+    "ci:eslint": "eslint \"**/*.{js,jsx,cjs,mjs,ts,tsx,cts,mts}\""
+  },
+  "dependencies": {
+    "@hamsurang/eslint-config-js": "workspace:*",
+    "@hamsurang/eslint-config-ts": "workspace:*",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  }
+}
