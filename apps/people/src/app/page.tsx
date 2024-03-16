@@ -2,71 +2,10 @@
 
 import { useFloating, useHover, useInteractions } from '@floating-ui/react'
 import { Box, Flex, Stack } from '@jsxcss/emotion'
+import { Suspense } from '@suspensive/react'
+import { SuspenseImage } from '@suspensive/react-image'
 import { Reorder, motion, useMotionValue, useTransform } from 'framer-motion'
 import { useEffect, useState } from 'react'
-
-type Card = {
-  name: string
-  imageSrc: string
-  description: string
-}
-
-const initialCards = [
-  {
-    name: '웨일',
-    imageSrc: 'https://avatars.githubusercontent.com/u/71202076?v=4',
-    description:
-      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem',
-  },
-  {
-    name: '쏘니',
-    imageSrc: 'https://avatars.githubusercontent.com/u/47546413?v=4',
-    description:
-      'Making it over 2000 years old. Richard McClintock, consectetur, from a Lorem Ipsum passage, and going through',
-  },
-  {
-    name: '민수르',
-    imageSrc: 'https://avatars.githubusercontent.com/u/40910757?v=4',
-    description:
-      'All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.',
-  },
-  {
-    name: '민초당',
-    imageSrc: 'https://avatars.githubusercontent.com/u/90169703?v=4',
-    description:
-      'Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which',
-  },
-  {
-    name: '마누',
-    imageSrc: 'https://avatars.githubusercontent.com/u/61593290?v=4',
-    description:
-      'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from',
-  },
-  {
-    name: '쿼카',
-    imageSrc: 'https://avatars.githubusercontent.com/u/57122180?v=4',
-    description:
-      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem',
-  },
-  {
-    name: '퉁이리',
-    imageSrc: 'https://avatars.githubusercontent.com/u/77133565?v=4',
-    description:
-      'Looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through',
-  },
-  {
-    name: '모리',
-    imageSrc: 'https://avatars.githubusercontent.com/u/89721027?v=4',
-    description:
-      'It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which',
-  },
-  {
-    name: '쉽',
-    imageSrc: 'https://avatars.githubusercontent.com/u/43772082?v=4',
-    description:
-      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem',
-  },
-] satisfies Card[]
 
 export default function Home() {
   const [cards, setCards] = useState(initialCards)
@@ -83,20 +22,41 @@ export default function Home() {
       spacing={10}
     >
       <Flex.Center flex={1}>
-        <Reorder.Group axis="x" values={cards} onReorder={setCards}>
-          <Stack.Horizontal>
-            {cards.map((card, cardsIndex, cardsArray) => (
-              <Reorder.Item key={card.name} value={card}>
-                <Card
-                  {...card}
-                  selected={selectedCardName === card.name}
-                  onTap={() => setSelectedCardName(card.name)}
-                  orderFromCenter={cardsIndex - cardsArray.length / 2}
+        <Suspense clientOnly fallback={null}>
+          <Suspense
+            clientOnly
+            fallback={
+              <Flex.Center
+                width={320}
+                height={320}
+                overflow="hidden"
+                borderRadius="50%"
+              >
+                <Box
+                  as={SuspenseImage}
+                  src="https://avatars.githubusercontent.com/u/138272051?s=200&v=4"
+                  width="100%"
+                  height="100%"
                 />
-              </Reorder.Item>
-            ))}
-          </Stack.Horizontal>
-        </Reorder.Group>
+              </Flex.Center>
+            }
+          >
+            <Reorder.Group axis="x" values={cards} onReorder={setCards}>
+              <Stack.Horizontal>
+                {cards.map((card, cardsIndex, cardsArray) => (
+                  <Reorder.Item key={card.name} value={card}>
+                    <Card
+                      {...card}
+                      selected={selectedCardName === card.name}
+                      onTap={() => setSelectedCardName(card.name)}
+                      orderFromCenter={cardsIndex - cardsArray.length / 2}
+                    />
+                  </Reorder.Item>
+                ))}
+              </Stack.Horizontal>
+            </Reorder.Group>
+          </Suspense>{' '}
+        </Suspense>
       </Flex.Center>
     </Stack>
   )
@@ -252,7 +212,7 @@ const Card = ({
                 borderRadius="50%"
               >
                 <Box
-                  as="img"
+                  as={SuspenseImage}
                   src="https://avatars.githubusercontent.com/u/138272051?s=200&v=4"
                   width="100%"
                   height="100%"
@@ -272,7 +232,7 @@ const Card = ({
               borderRight="2px solid #ffffff95"
             >
               <Box
-                as="img"
+                as={SuspenseImage}
                 src={imageSrc}
                 pointerEvents="none"
                 opacity={0.8}
@@ -396,7 +356,7 @@ const Card = ({
           }}
           spacing={24}
         >
-          {[1, 2, 3, 4, 12, 3, 1, 2, 12, 3].map((width, index) => (
+          {hologramVerticals.map((width, index) => (
             <Box
               key={index}
               backgroundColor="#ffffff20"
@@ -415,7 +375,7 @@ const Card = ({
           }}
           spacing={16}
         >
-          {[1, 2, 3, 4, 12, 3, 1, 2, 12, 3].map((width, index) => (
+          {hologramVerticals.map((width, index) => (
             <Box
               key={index}
               backgroundColor="#ffffff20"
@@ -429,3 +389,68 @@ const Card = ({
     </Box>
   )
 }
+
+type Card = {
+  name: string
+  imageSrc: string
+  description: string
+}
+
+const hologramVerticals = [1, 2, 3, 4, 12, 3, 1, 2, 12, 3] as const
+
+const initialCards = [
+  {
+    name: '웨일',
+    imageSrc: 'https://avatars.githubusercontent.com/u/71202076?v=4',
+    description:
+      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem',
+  },
+  {
+    name: '쏘니',
+    imageSrc: 'https://avatars.githubusercontent.com/u/47546413?v=4',
+    description:
+      'Making it over 2000 years old. Richard McClintock, consectetur, from a Lorem Ipsum passage, and going through',
+  },
+  {
+    name: '민수르',
+    imageSrc: 'https://avatars.githubusercontent.com/u/40910757?v=4',
+    description:
+      'All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.',
+  },
+  {
+    name: '민초당',
+    imageSrc: 'https://avatars.githubusercontent.com/u/90169703?v=4',
+    description:
+      'Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which',
+  },
+  {
+    name: '마누',
+    imageSrc: 'https://avatars.githubusercontent.com/u/61593290?v=4',
+    description:
+      'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from',
+  },
+  {
+    name: '쿼카',
+    imageSrc: 'https://avatars.githubusercontent.com/u/57122180?v=4',
+    description:
+      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem',
+  },
+  {
+    name: '퉁이리',
+    imageSrc: 'https://avatars.githubusercontent.com/u/77133565?v=4',
+    description:
+      'Looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through',
+  },
+  {
+    name: '모리',
+    imageSrc: 'https://avatars.githubusercontent.com/u/89721027?v=4',
+    description:
+      'It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which',
+  },
+  {
+    name: '쉽',
+    imageSrc: 'https://avatars.githubusercontent.com/u/43772082?v=4',
+    description:
+      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem',
+  },
+] satisfies Card[]
