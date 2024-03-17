@@ -6,6 +6,7 @@ import { SuspenseImage } from '@suspensive/react-image'
 import { Reorder, motion } from 'framer-motion'
 import { useState } from 'react'
 import { Card, type CardData } from './components/Card'
+import StarBackground from './components/StarBackground'
 import { initialCards } from '~/mock/cardDatas'
 
 export default function Home() {
@@ -15,13 +16,13 @@ export default function Home() {
   >(null)
 
   return (
-    <Stack
-      overflow="hidden"
-      backgroundColor="#13120f"
-      height="100vh"
-      as={motion.div}
-      spacing={10}
-    >
+    <Stack overflow="hidden" height="100vh" as={motion.div} spacing={10}>
+      <StarBackground
+        starCount={1000}
+        starColor={[255, 255, 255]}
+        speedFactor={0.05}
+        backgroundColor="#0b0b09"
+      />
       <Flex.Center flex={1}>
         <Suspense clientOnly fallback={null}>
           <Suspense
