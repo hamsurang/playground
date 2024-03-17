@@ -55,7 +55,7 @@ export default function Home() {
                 ))}
               </Stack.Horizontal>
             </Reorder.Group>
-          </Suspense>{' '}
+          </Suspense>
         </Suspense>
       </Flex.Center>
     </Stack>
