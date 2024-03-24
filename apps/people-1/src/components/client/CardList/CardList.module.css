@@ -1,0 +1,27 @@
+.card-list {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 52px 26px;
+}
+
+.card-list::-webkit-scrollbar {
+  display: none;
+}
+
+.card-list li {
+  transition: transform 0.3s ease;
+}
+
+.card-list li:not(:first-child) {
+  margin-left: -60px;
+}
+
+.card-list li:hover {
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.card-list li:hover ~ li {
+  transform: translateX(10%);
+}
